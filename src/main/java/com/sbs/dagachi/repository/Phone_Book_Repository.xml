@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="com.sbs.dagachi.repository.Phone_Book_Repository">
+	<select id="getPhoneBookList" resultType="Phone_BookVO">
+		select *
+		from phone_book
+		where phone_book_type=#{phone_book_type}
+		<if test="phone_book_type=='2'">
+			and phone_book_register=#{phone_book_register}
+		</if>
+		<if test="keyword!=''">
+			<choose>
+				<when test="searchType=='dep'">
+					and phone_book_dep like concat('%',#{keyword},'%')
+				</when>
+				<when test="searchType=='tag'">
+					and phone_book_tag like concat('%',#{keyword},'%')
+				</when>
+				<when test="searchType=='name'">
+					and phone_book_name like concat('%',#{keyword},'%')
+				</when>
+			</choose>
+		</if>
+		 
+	</select>
+	
+	<select id="getPhoneBookDetail" resultType="Phone_BookVO">
+		select *
+		from phone_book
+		where phone_book_id=#{phone_book_Id}
+	</select>
+	
+	<select id="getLastInsertId" resultType="int">
+		SELECT LAST_INSERT_ID() 
+	</select>
+	
+	<insert id="registPhone_Book">
+		insert into phone_Book
+		set
+		phone_book_name=#{phone_Book_Name},
+		phone_book_email=#{phone_Book_Email},
+		phone_book_phone=#{phone_Book_Phone},
+		phone_book_company=#{phone_Book_Company},
+		phone_book_tag=#{phone_Book_Tag},
+		phone_book_fax=#{phone_Book_Fax},
+		phone_book_dep=#{phone_Book_Dep},
+		phone_book_team=#{phone_Book_Team},
+		phone_book_rank=#{phone_Book_Rank},
+		phone_book_address=#{phone_Book_Address},
+		phone_book_web=#{phone_Book_Web},
+		phone_book_register=#{phone_Book_Register},
+		phone_book_type=#{phone_Book_Type}
+		
+	
+	</insert>
+	
+	<update id="modifyPhone_Book">
+		update into phone_Book
+		set
+		phone_book_name=#{phone_Book_Name},
+		phone_book_email=#{phone_Book_Email},
+		phone_book_phone=#{phone_Book_Phone},
+		phone_book_company=#{phone_Book_Company},
+		phone_book_tag=#{phone_Book_Tag},
+		phone_book_fax=#{phone_Book_Fax},
+		phone_book_dep=#{phone_Book_Dep},
+		phone_book_team=#{phone_Book_Team},
+		phone_book_rank=#{phone_Book_Rank},
+		phone_book_address=#{phone_Book_Address},
+		phone_book_web=#{phone_Book_Web},
+		phone_book_register=#{phone_Book_Register},
+		phone_book_type=#{phone_Book_Type}
+		
+		where phone_book_Id=#{phone_Book_Id}
+	</update>
+	
+	
+</mapper>
